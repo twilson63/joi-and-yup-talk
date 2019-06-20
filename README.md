@@ -115,3 +115,69 @@ There is another client library modeled after Joi called Yup; this library gives
 
 https://github.com/jquense/yup
 
+
+Example
+
+``` js 
+import * as yup from 'yup';
+
+let schema = yup.object().shape({
+  name: yup.string().required(),
+  age: yup
+    .number()
+    .required()
+    .positive()
+    .integer(),
+  email: yup.string().email(),
+  website: yup.string().url(),
+  createdOn: yup.date().default(function() {
+    return new Date();
+  }),
+});
+
+// check validity
+schema
+  .isValid({
+    name: 'jimmy',
+    age: 24,
+  })
+  .then(function(valid) {
+    valid; // => true
+  });
+
+// you can try and type cast objects to the defined schema
+schema.cast({
+  name: 'jimmy',
+  age: '24',
+  createdOn: '2014-09-23T19:25:25Z',
+});
+```
+
+With yup, you can also customize local.
+
+```
+import { setLocale } from 'yup';
+
+setLocale({
+  mixed: {
+    default: 'Não é válido',
+  },
+  number: {
+    min: 'Deve ser maior que ${min}',
+  },
+});
+
+// now use Yup schemas AFTER you defined your custom dictionary
+let schema = yup.object().shape({
+  name: yup.string(),
+  age: yup.number().min(18),
+});
+
+schema.validate({ name: 'jimmy', age: 11 }).catch(function(err) {
+  err.name; // => 'ValidationError'
+  err.errors; // => ['Deve ser maior que 18']
+});
+```
+
+ 
+
