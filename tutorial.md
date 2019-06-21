@@ -215,7 +215,7 @@ function validateField(name) {
   .catch(err => {
    error = name
    message = err.errors[0]
- })
+  })
  }
 }
 ```
