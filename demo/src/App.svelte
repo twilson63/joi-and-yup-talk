@@ -14,7 +14,7 @@ let developer = {
 
 function handleSubmit() {
   error = null
-  // TOOD: Validation
+  // TO-DO: Validation
   fetch('/api', { method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(developer)})
     .then(r => r.json())
     .then(result => {
