@@ -87,8 +87,7 @@ function validateForm(req, res, next) {
   if(err) {
    console.log(err)
    return res.status(400).send({error: 'bad request'})
-   }
-  res.status(200).send('OK')
+  }
   next()
  })
  ```
@@ -121,18 +120,23 @@ In this lesson, we will do the following:
 * trigger an error notification to display 
 
 ### Yup intro and install
+
 Now that we've finished using Joi, we need to install Yup to our project to handle the form- and field-level validation:
+
 ```sh
 npm install --save yup
 ```
 
 Once installed, let's open `./src/App.svelte` to import the repository:
+
 ```svelte
 import yup from 'yup'
 ```
 
 ### Defining the schema
+
 Now, let's define the schema for the form- and field-level validation under the import statement in the `<script>` tag:
+
 ```svelte
 let schema = yup.object().shape({
  firstName: yup.string().required(),
@@ -144,10 +148,13 @@ let schema = yup.object().shape({
  preference: yup.string().required()
 })
 ```
+
 This schema reiterates the schema expressed previously, but for Yup on the client-side as opposed to Joi on the server-side.
 
 ### Calling the schema
+
 Now, in order to call the schema we just wrote, let's move down to the `//TO-DO: Validation` step at the end of the `<script>` tag:
+
 ```svelte
 schema.validate(developer)
  .then(valid => {
@@ -160,30 +167,37 @@ schema.validate(developer)
  ...
 </script>
 ```
+
 ### Creating an error message
+
 Still in the `./src/App.svelte` file, let's create a UI element to display in case the user tries to submit invalid data:
 
 At the top of the `<script>` with the other declarations:
+
 ```svelte
 let message = ''
 ```
 
 In the `.catch(err => { ... })` arrow function we just wrote:
+
 ```svelte
 error = err.path
 message = err.errors[0]
 ```
 
 Now that the error message is set up, we have to actually display it. In the second `<section>`:
+
 ```svelte
 <div class= "box">
  {#if error} 
-  <div class= "notification is-danger:>
+  <div class= "notification is-danger">
     {message}
   </div>
+  {/if}
  </if>
  ...
 ```
+
 Please note that the first `<div>` (box class) tag is already written, just replace the existing comment. 
 
 Now save your changes. The page should automatically refresh. If any of the criteria previously described are not met, a red box should appear at the top of the form with an error message.
@@ -219,9 +233,11 @@ function validateField(name) {
  }
 }
 ```
+
 When called, this function validates a given field for the matching value that the developer object (the client's data) gives.
 
 ### The on:blur Event Handler
+
 Finally, let's call this function.
 
 Below in the markup, you will see a series of labels with values matching to those in your form.
@@ -229,7 +245,7 @@ Below in the markup, you will see a series of labels with values matching to tho
 In the input field of each `<div>`, after binding the input to the matching label, add an on:blur event to call validateField when a user stops entering text into (or tabs out of) a field:
 
 ```svelte
-<input id ... bind:value{dev.firstName} on:blur={validateField('firstName')} />
+<input id ... bind:value={dev.firstName} on:blur={validateField('firstName')} />
 ``` 
 Copy and paste for each input, changing `firstName` for the respective field's label.
 
