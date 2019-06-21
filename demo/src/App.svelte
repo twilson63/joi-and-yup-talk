@@ -40,6 +40,7 @@ function handleSubmit() {
 <section class="section">
   <div class="container">
     <div class="box">
+      <!-- Display form-level error message -->
       <form class="form" on:submit|preventDefault={handleSubmit}>
         <div class="field">
           <label class="label" for="first-name">First Name</label>
@@ -115,9 +116,6 @@ function handleSubmit() {
             <button class="button">Submit</button>
           </div>
         </div>
-        
-
-          
  
       </form>
     </div>
